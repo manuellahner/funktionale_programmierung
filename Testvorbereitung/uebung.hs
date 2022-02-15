@@ -112,3 +112,19 @@ sqrtIntBisect x = s 0 x where
 
 toInt :: Float -> Integer
 toInt = round
+
+suffixes:: [a]->[[a]]
+suffixes[]=[[]]
+suffixes x= x : suffixes(tail x)
+
+prefixes::[a]->[[a]]
+prefixes []= [[]]
+prefixes (x:xs)= (x:xs): prefixes xs
+
+
+menu:: Char-> [a]-> Either ([[a]]) (String)
+menu a b
+    |a=='p' = Left (prefixes b)
+    |a=='s' = Left (suffixes b)
+    |otherwise = Right ("("++ [a] ++ ") is not supported, use (p)refix or (s)uffix")
+
