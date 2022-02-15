@@ -1,0 +1,9 @@
+0123456
+.......
+....O..
+....X.X
+...OO.X
+...XOOO
+O..XXXO
+
+Player X to go
