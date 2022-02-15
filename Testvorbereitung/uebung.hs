@@ -119,7 +119,7 @@ suffixes x= x : suffixes(tail x)
 
 prefixes::[a]->[[a]]
 prefixes []= [[]]
-prefixes (x:xs)= (x:xs): prefixes xs
+prefixes a= a: prefixes (init a)
 
 
 menu:: Char-> [a]-> Either ([[a]]) (String)
@@ -128,3 +128,4 @@ menu a b
     |a=='s' = Left (suffixes b)
     |otherwise = Right ("("++ [a] ++ ") is not supported, use (p)refix or (s)uffix")
 
+    
