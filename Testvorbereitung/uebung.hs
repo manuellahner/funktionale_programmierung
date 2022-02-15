@@ -128,4 +128,11 @@ menu a b
     |a=='s' = Left (suffixes b)
     |otherwise = Right ("("++ [a] ++ ") is not supported, use (p)refix or (s)uffix")
 
+
+data Myexpr a= 
+     Numb a
+    | Plu (Myexpr a) (Myexpr a)
+    |Times (Myexpr a) (Myexpr a)
+    deriving Show
+    
     
