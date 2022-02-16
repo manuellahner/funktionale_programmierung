@@ -1,4 +1,5 @@
 import GHC.Stack.Types (CallStack(EmptyCallStack))
+import Data.IntMap.Merge.Lazy (merge)
 
 
 data Menu=Item String String  deriving Show
@@ -130,9 +131,25 @@ menu a b
 
 
 data Myexpr a= 
-     Numb a
+     Numba a
     | Plu (Myexpr a) (Myexpr a)
     |Times (Myexpr a) (Myexpr a)
     deriving Show
     
-    
+numbers::Num a=>Myexpr a -> [a]
+numbers (Numba x) = x:[]
+numbers (Plu b c)= numbers b ++ numbers c
+numbers (Times b c)=numbers b ++ numbers c
+
+eval::Num a=> Myexpr a -> a
+eval (Numba a)= a
+eval (Plu b c)=eval b + eval c
+eval (Times b c)= (eval b)* (eval c)
+
+
+mergeList::[a]->[b]->[(a,b)]
+mergeList _ []= []
+mergeList [] _ = []
+mergeList (a:ax) (b:bx)= (a,b):mergeList ax bx
+
+
