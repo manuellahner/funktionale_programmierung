@@ -1,5 +1,4 @@
-import GHC.Stack.Types (CallStack(EmptyCallStack))
-import Data.IntMap.Merge.Lazy (merge)
+
 
 
 data Menu=Item String String  deriving Show
@@ -153,3 +152,45 @@ mergeList [] _ = []
 mergeList (a:ax) (b:bx)= (a,b):mergeList ax bx
 
 
+today=(16,2,2022)
+
+calculateage::(Int,Int,Int)-> Int
+calculateage (a,b,c)
+   |(a>=16) && (b>=2) = (2022-c-1)
+   |otherwise =  (2022-c)
+
+
+convertDatesToAges:: [(String,(Int,Int,Int))]->[(String,Int)]
+convertDatesToAges []=[]
+convertDatesToAges ((s,d):xs)=(s,calculateage d): convertDatesToAges xs
+
+
+
+getOtherPairValue:: (String, Int)-> Either String Int-> Either String Int
+
+getOtherPairValue (a,b) (Left c) = Left a
+getOtherPairValue(a,b) (Right c) = Right  b
+
+fstList:: [(a,b)]-> [a]
+fstList []= []
+fstList ((a,b):xs)= a:fstList xs
+
+lengthSumMax ::(Num a, Ord a)  => [a]->(Int,a,a)
+lengthSumMax a= (length a, sum a, maximum a)
+
+
+data Rat = Rat Integer Integer deriving Show
+
+normalize:: Rat -> Rat
+normalize (Rat a b)
+   |abs(a)>abs(b)=kuerzen a b (abs b) 
+   |otherwise = kuerzen a b (abs a)
+  where 
+     kuerzen x y z
+        |(abs(x)>abs(y))= if x`mod`z==0 && y`mod`z==0 then (Rat (x`div`z) (y`div`z)) else kuerzen x y (z-1)
+        |otherwise = if x`mod`z==0 && y`mod`z==0 then Rat (x`div`z) (y`div`z) else kuerzen x y (z-1)
+
+instance Eq Rat where
+    Rat a1 b1 == Rat a2 b2= a1*b1==a2*b2
+
+instance Ord Rat where
