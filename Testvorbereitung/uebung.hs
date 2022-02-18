@@ -1,6 +1,7 @@
 
 
 
+
 data Menu=Item String String  deriving Show
 
 
@@ -179,7 +180,7 @@ lengthSumMax ::(Num a, Ord a)  => [a]->(Int,a,a)
 lengthSumMax a= (length a, sum a, maximum a)
 
 
-data Rat = Rat Integer Integer deriving Show
+data Rat = Rat Integer Integer 
 
 normalize:: Rat -> Rat
 normalize (Rat a b)
@@ -194,3 +195,48 @@ instance Eq Rat where
     Rat a1 b1 == Rat a2 b2= a1*b1==a2*b2
 
 instance Ord Rat where
+    a <= b = myins where
+               Rat r1 s1 = normalize a
+               Rat r2 s2 = normalize b
+               myins = r1*s2<=r2*s2
+
+instance Show Rat where
+    show (Rat a b)= if b==1 then show a else show a ++"/"++show b
+
+data Ingredient= Ingredient String Float Unit
+data Unit= ML| PC| G deriving Show
+
+instance Show Ingredient where
+    show(Ingredient a b c)= show b ++" "++show c ++ " of "++ a++", costs: "++show(getPrice(Ingredient a b c))++" EUR"
+
+
+class Price a where
+    getPrice:: a -> Float
+
+instance Price Ingredient where
+    getPrice(Ingredient s x ML)= x* 0.12/100
+    getPrice(Ingredient s x G)= x* 0.095/100
+    getPrice(Ingredient s x PC)= x*0.75/100
+
+
+data Recepie= Recepie [Ingredient]
+
+instance Price Recepie where
+    getPrice (Recepie [])=0
+    getPrice (Recepie (x:xs))=getPrice x + getPrice (Recepie xs)
+
+instance Show Recepie where
+    show (Recepie [])=""
+    show (Recepie (x:xs))= "-"++ show x ++ show (Recepie xs)
+
+testing= Ingredient "Zucker" 70 G
+testing1= Ingredient "Wasser" 20 ML
+testing2= Ingredient "Zitronen" 2 PC
+testing3= Recepie[testing, testing1, testing2]
+ing1 = Ingredient "Milk" 200 ML
+ing2 = Ingredient "Sugar" 200 G
+ing3 = Ingredient "Egg" 3 PC
+recipetest = Recepie[ing1, ing2, ing3]
+
+
+--Aufgabenblatt 8
