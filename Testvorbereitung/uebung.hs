@@ -2,6 +2,7 @@
 
 
 
+
 data Menu=Item String String  deriving Show
 
 
@@ -240,3 +241,37 @@ recipetest = Recepie[ing1, ing2, ing3]
 
 
 --Aufgabenblatt 8
+
+fan :: (a->Bool)->[a]->[[a]]
+fan p []=[]
+fan p l@(arr:arrx) 
+  |(p arr)==True = takefirst (myfan l): fan p (takesecond(myfan l)) 
+  |otherwise  = takefirst (myfnnot l): fan p (takesecond(myfnnot l))   
+ where
+    myfan xs= span p xs
+    myfnnot xs= span (not.p) xs
+    takefirst (a,b)= a
+    takesecond (a,b)=b
+
+
+splitOnNumbers= fan (\x-> x=='1' ||x=='2'||x=='3'||x=='4'||x=='5'||x=='6'||x=='7'||x=='8'||x=='9'||x=='0')
+
+splitBy::(a->Bool)->[a]->[[a]]
+splitBy p (x:xs)
+  |p x== True = takesecond(fan p (x:xs))
+  |otherwise = takefirst(fan p (x:xs)) 
+ where
+    takesecond[]=[]
+    takesecond (x:xs:xxs)= xs: takesecond xxs
+    takesecond (x:[])= []
+    
+    takefirst []=[]
+    takefirst (x:xs:xxs)= x: takefirst xxs
+    takefirst (x:[])=x:[]
+
+
+--foldr funktionen
+
+dig2int::[Integer]->Integer 
+dig2int a= foldr (\x acc -> x+ 10 *acc)0 a
+
