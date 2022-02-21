@@ -275,3 +275,27 @@ splitBy p (x:xs)
 dig2int::[Integer]->Integer 
 dig2int a= foldr (\x acc -> x+ 10 *acc)0 a
 
+suffs::[a]->[[a]]
+
+suffs a= foldr(\x acc ->(x:head(acc)):acc) [[]] a
+
+
+
+--Aufgabenblatt 10
+
+shift:: Int -> Char -> Char 
+shift a b
+ |fromEnum b<97 || fromEnum b>122= b
+ |fromEnum (b) + a >122= shift (fromEnum(b)+a-123) 'a'
+ |otherwise= toEnum(fromEnum(b)+a)
+
+
+encode:: Int ->String -> String 
+encode x a= map (shift 5) a
+
+
+
+count:: Char-> String -> Int 
+count a x= mycount 0 a x  where
+    mycount acc c []= acc
+    mycount acc c (s:sx)= if s==c then mycount (acc+1) c sx else mycount acc c sx
