@@ -299,3 +299,23 @@ count:: Char-> String -> Int
 count a x= mycount 0 a x  where
     mycount acc c []= acc
     mycount acc c (s:sx)= if s==c then mycount (acc+1) c sx else mycount acc c sx
+
+percent:: Int ->Int->Float
+
+percent a b= x/y*100 where
+    x= fromIntegral a 
+    y= fromIntegral b 
+
+freqs:: String -> [Float]
+freqs a= [percent(count c a) n|c<-['a'..'z']]
+    where n=length (filter (\c-> c>='a'&& c<='z') a)
+
+
+
+chisqr:: [Float]->[Float]->Float 
+chisqr os es= sum[ (a-e)^2/e   |(a,e)<- zip os es]
+
+rotate:: Int->[a]->[a]
+
+rotate x a= drop x a ++ take x a
+
